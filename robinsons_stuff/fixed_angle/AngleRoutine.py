@@ -1,3 +1,5 @@
+import sys
+sys.path.append('../../imports')
 from InitProb import *
 
 def create_quad_list():
