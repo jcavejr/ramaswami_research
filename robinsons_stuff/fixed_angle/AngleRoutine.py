@@ -156,28 +156,34 @@ if __name__ == '__main__':
         #print(xlist)
         #print(RARs)
         plt.plot(xlist, RARs, label="Robinson's")
-        plt.plot(xlist, circle_ratios, label="Circle")
-        plt.plot(xlist, square_ratios, label="Square")
-        plt.legend(loc="upper right")
+        #plt.plot(xlist, circle_ratios, label="Circle")
+        #plt.plot(xlist, square_ratios, label="Square")
+        #plt.legend(loc="upper right")
         plt.xlabel("Offset")
         plt.ylabel("Aspect Ratio")
         plt.axis([minx,maxx,minx, 5])
         plt.title(str(template))
         plt.savefig(name)
         plt.clf()
-        off_quads = [unitQuad(template), minQuad]
 
-        offname = name + ".off"
-        exportToOFF( off_quads, offname )
-        #setting a constant to find best part of a curve
+        correctedQuad = []
         cutoff = .03
         for i in range(1, len(RARs)):
             if RARs[i-1]-RARs[i] < 0:
                 break
             elif RARs[i-1]-RARs[i] < cutoff:
+                correctedQuad = quads[i]
+                off_quads = [unitQuad(template), correctedQuad]
+                offname_corrected = name + "_corrected.off"
+                exportToOFF(off_quads, offname_corrected)
                 print("Cutoff was reached at Robinson's: {:4f}".format(RARs[i]))
                 print("Offset: {:2f}".format(i*pitch))
                 print("Edge Lengths:", get_distances(quads[i]))
                 break
+        off_quads = [unitQuad(template), minQuad]
+
+        offname = name + ".off"
+        exportToOFF( off_quads, offname )
+
         print("Minimum Robinson's Aspect Ratio: {}".format(minRAR))
         print("Minimum Offset: {}".format(minOffset))
