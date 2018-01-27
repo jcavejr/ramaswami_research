@@ -135,6 +135,15 @@ if __name__ == '__main__':
         minOffset = float("inf")
         circle_ratios = []
         square_ratios = []
+        #Arrays for Area, Perimeter, and Max Edge Length.  ADDED 1/27/18
+        quad_area = []
+        quad_perimeter = []
+        max_edge_length = []
+        #Wanna try out (RAR+max_edge_length)/2.  Not sure if this is gonna work, but I'm curious.  The other thing is area/perim and perim/area.
+        test_formula = []
+        area_dividedby_perim = []
+        perim_dividedby_area = []
+        perimeter = 0
         # Generate list of RARs
         for quad in quads:
             RARs.append(robinsonAspectRatio(quad))
@@ -146,6 +155,19 @@ if __name__ == '__main__':
             #ratios.append(get_quad_area(quad)/get_circle_area(quad)) 
             circle_ratios.append(get_quad_area(quad)/get_circle_area(quad))
             square_ratios.append(get_quad_area(quad)/get_square_area(quad))
+            #Put the area of the quad into a new array full of each quad's area.  ADDED 1/27/18
+            quad_area.append(get_quad_area(quad))
+            #Find the perimeter for the quad.  Not sure if this is valid code or not and can't run it because laptop.  ADDED 1/27/18
+            perimeter = get_distances(quad)[0]+get_distances(quad)[1]+get_distances(quad)[2]+get_distances(quad)[3]
+            quad_perimeter.append(perimeter)
+            #Find the max edge length.  Again, not sure if this is valid code.  ADDED 1/27/18
+            max_edge_length.append(max(get_distances(quad)))
+            #Set the three formulas values to their respective lists.
+            test_formula.append((robinsonAspectRatio(quad)+max(get_distances(quad)))/2)
+            area_dividedby_perim.append(get_quad_area(quad)/perimeter)
+            perim_dividedby_area.append(perimeter/get_quad_area(quad))
+            #Set perimeter back to 0.  I assume this would help with any errors of constantly adding a million perimeters together.
+            perimeter = 0
             #distances = get_distances(quad)
             #if quad[1][0] % 1 == 0:
                 #print(distances)    
@@ -156,9 +178,13 @@ if __name__ == '__main__':
         #print(xlist)
         #print(RARs)
         plt.plot(xlist, RARs, label="Robinson's")
+        #Try to plot all the new lines
+        plt.plot(xlist, test_formula, label="Test Formula")
+        plt.plot(xlist, area_dividedby_perim, label="Area Divided By Perimeter")
+        plt.plot(xlist, perim_dividedby_area, label="Perimeter Divided By Area")
         #plt.plot(xlist, circle_ratios, label="Circle")
         #plt.plot(xlist, square_ratios, label="Square")
-        #plt.legend(loc="upper right")
+        plt.legend(loc="upper right")
         plt.xlabel("Offset")
         plt.ylabel("Aspect Ratio")
         plt.axis([minx,maxx,minx, 5])
