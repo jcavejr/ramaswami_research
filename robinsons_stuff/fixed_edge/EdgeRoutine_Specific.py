@@ -1,3 +1,5 @@
+import sys
+sys.path.append('../../imports')
 from InitProb import *
 
 """
@@ -17,7 +19,8 @@ if __name__ == "__main__":
    
     templates = []
     count = 1
-    L = [1.000, 0.512, 0.738, 0.788]
+#    L = [1.000, 0.512, 0.738, 0.788]
+    L = [2, 3, 3, 10**.5]
 #    L = [1.0, 0.9, 0.258, 0.242]
 #    count = 1
 #    f = [1, 0.9, 0.258, 0.242]
@@ -25,7 +28,7 @@ if __name__ == "__main__":
     for i in range(count):
         #template = [1, 1, 1, 1]
         N = 18
-        template = L
+        template = orderTemplate(L)
         quads = unitQuad_Edge(template, N)
         print("Success with {}".format(str(template)))
 
@@ -50,7 +53,7 @@ if __name__ == "__main__":
         print(xlist)
         print(RARs)
         plt.plot(xlist, RARs)
-        plt.axis([0,1,0, 10])
+        plt.axis([0, 1, 0, 10])
         plt.title(str(template))
         plt.savefig(offname)
         plt.clf() 
@@ -60,6 +63,8 @@ if __name__ == "__main__":
         exportToOFF( quads, offname + "_ALL.off" )
 
         print("\n"*5)
+        print("Min RAR: {}".format(minRAR))
+#        print("Min Offset: {}".format(minOFFSET))
 
 ##    """    
 ##    template = [1, 0.48, 0.56, 0.18]

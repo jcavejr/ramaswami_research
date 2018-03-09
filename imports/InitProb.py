@@ -216,11 +216,19 @@ def unitQuad(angOriginal, offset = 1):
 
 
 
+
 ########################################
 # Edge Problem
 ########################################
 
-
+def orderTemplate(template):
+    maxLen = max(template)
+    maxIndex = template.index(maxLen)
+    template = template[maxIndex:] + template[:maxIndex]
+    for i, item in enumerate(template):
+        template[i] = item/maxLen
+    return template
+    
 
 def randomEdgeLengths(): 
     """
