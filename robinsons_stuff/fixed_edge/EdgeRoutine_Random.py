@@ -1,3 +1,5 @@
+import sys
+sys.path.append('../../imports')
 from InitProb import *
 
 """
@@ -55,7 +57,10 @@ if __name__ == "__main__":
         plt.clf() 
         output = [quads[0], minQuad, quads[-1]]
 
+        offname = offname + ".off"
         exportToOFF( output, offname )
+
+        print("Minimum Robinson's: {}".format(minRAR))
 
         print("\n"*5)
 
